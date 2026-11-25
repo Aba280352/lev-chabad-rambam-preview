@@ -1,0 +1,38 @@
+/* לב חב"ד רמב"ם: טוקנים לפי הדיזיין סיסטם. ערכי HSL בלי hsl(), כמו ב־shadcn. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face { font-family: "Discovery FS"; font-weight: 300; font-display: swap; src: url("/fonts/Discovery_Fs-Light.woff2") format("woff2"); }
+@font-face { font-family: "Discovery FS"; font-weight: 500; font-display: swap; src: url("/fonts/Discovery_Fs-Medium.woff2") format("woff2"); }
+@font-face { font-family: "Discovery FS"; font-weight: 700; font-display: swap; src: url("/fonts/Discovery_Fs-Bold.woff2") format("woff2"); }
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;          /* surface #ffffff */
+    --foreground: 340 26% 11%;        /* ink #24151a */
+    --muted: 40 100% 96%;             /* surface-alt #fff8ea */
+    --muted-foreground: 342 9% 39%;   /* ink-muted #6b5a5f */
+    --primary: 342 100% 20%;          /* bordeaux #680020 */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 341 100% 18%;    /* #5a001c */
+    --brand-deep: 341 100% 12%;       /* bordeaux-deep #3d0013 */
+    --accent: 40 98% 61%;             /* gold #fdbb39 */
+    --accent-foreground: 341 100% 12%;/* טקסט על זהב: תמיד bordeaux-deep */
+    --accent-hover: 40 89% 53%;       /* #f2a91c */
+    --logo-orange: 24 91% 56%;        /* רק בלוגו ובלב */
+    --logo-bordeaux: 343 74% 21%;     /* רק בלוגו ובלב */
+    --border: 340 26% 11% / 0.14;
+    --ring: 342 100% 20%;
+    --radius: 0.75rem;                /* 12px */
+    --header-h: 72px;
+  }
+  @media (min-width: 1025px) { :root { --header-h: 88px; } }
+
+  html { direction: rtl; }
+  body {
+    @apply bg-background text-foreground font-sans font-light;
+    font-size: 18px;
+    line-height: 1.3;
+  }
+}
