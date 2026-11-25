@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 
 /**
  * משפט מרגש לפני "נעים להכיר": תמונה במסך מלא, והמילים נדלקות אחת אחת לפי הגלילה (GSAP ScrollTrigger, scrub).
- * הסקשן בגובה 220vh והתוכן דביק (sticky), כך שהמשפט נשאר במקום בזמן שהמילים נדלקות. התמונה זזה לאט (פרלקסה).
+ * הסקשן בגובה 220vh והתוכן דביק (sticky), כך שהמשפט נשאר במקום בזמן שהמילים נדלקות. התמונה קבועה, בלי פרלקסה, כדי שלא תקפוץ.
  * הטקסט לאישור הלקוח. "אתם לא לבד" הוא סלוגן קיים.
  */
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -27,11 +27,6 @@ export default function EmotionalStatement() {
           { opacity: 0.18 },
           { opacity: 1, ease: "none", stagger: 0.12, scrollTrigger: { trigger: section, start: "top top", end: "bottom bottom", scrub: true } },
         );
-        gsap.fromTo(
-          section.querySelector("[data-bg]"),
-          { yPercent: -4 },
-          { yPercent: 4, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } },
-        );
       });
     },
     { scope: sectionRef },
@@ -49,14 +44,13 @@ export default function EmotionalStatement() {
     <section ref={sectionRef} aria-label="אתם לא לבד" className="relative h-[220vh] bg-brand-deep motion-reduce:h-auto">
       <div className="sticky top-0 isolate grid h-[100dvh] place-items-center overflow-hidden motion-reduce:relative motion-reduce:min-h-[100dvh]">
         <img
-          data-bg
           src="/about/statement.jpg"
           alt=""
           aria-hidden="true"
           width={1600}
           height={1200}
-          loading="lazy"
-          className="absolute inset-x-0 -top-[8%] -z-20 h-[116%] w-full object-cover"
+          decoding="async"
+          className="absolute inset-0 -z-20 size-full object-cover"
         />
         <div
           aria-hidden="true"

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 /**
  * "הפעילות שלנו": 6 כרטיסים עם תמונות שמתחילים כערימה מסובבת במרכז
  * ונפתחים למקום שלהם בגלילה (GSAP ScrollTrigger, scrub).
- * דסקטופ (מ־1025px): 3 על 2. מובייל: עמודה, תמונה מימין לטקסט, והערימה מתחילה בראש העמודה.
+ * דסקטופ (מ־1025px): 3 על 2. מובייל: עמודה, בכל כרטיס התמונה למעלה ומתחתיה כותרת, תיאור וקישור. הערימה מתחילה בראש העמודה.
  * תלויות: gsap, @gsap/react.
  */
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -149,22 +149,22 @@ export default function ActivityCards() {
               data-card
               style={{ zIndex: ACTIVITIES.length - i }}
               className={cn(
-                "relative flex gap-3.5 rounded-xl p-2.5 will-change-transform",
+                "relative flex flex-col rounded-xl p-2.5 will-change-transform",
                 "transition-[translate] duration-300 ease-brand hover:[translate:0_-4px] motion-reduce:transition-none",
-                "desktop:flex-col desktop:gap-0 desktop:p-3",
+                "desktop:p-3",
                 t.card,
               )}
             >
-              {/* RTL: התמונה ראשונה, כלומר מימין לטקסט במובייל */}
+              
               <img
                 src={a.img}
                 alt={a.alt}
                 width={800}
                 height={600}
                 loading="lazy"
-                className="block h-auto w-28 flex-none rounded-lg object-cover desktop:aspect-[4/3] desktop:w-full"
+                className="block aspect-[4/3] h-auto w-full rounded-lg object-cover"
               />
-              <div className="flex flex-1 flex-col gap-1.5 py-1 pl-1 desktop:gap-2 desktop:px-1.5 desktop:pb-1.5 desktop:pt-4">
+              <div className="flex flex-1 flex-col gap-2 px-1.5 pb-1.5 pt-3.5 desktop:pt-4">
                 <h3 className="text-xl font-bold leading-tight [text-wrap:balance] desktop:text-[22px]">{a.title}</h3>
                 <p className={cn("text-[15px] font-medium leading-[1.45] [text-wrap:pretty] desktop:text-base", t.text)}>{a.text}</p>
                 <a

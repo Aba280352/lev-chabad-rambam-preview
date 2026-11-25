@@ -104,7 +104,7 @@ export default function HomeHero() {
 
       <div className="mx-auto flex w-full max-w-[1300px] flex-1 flex-col items-center justify-end gap-[15px] px-5 pb-6 pt-[120px] text-center min-[1025px]:justify-center min-[1025px]:gap-5 min-[1025px]:px-[5vw] min-[1025px]:pb-12 min-[1025px]:pt-16">
 
-        <p className="inline-flex items-center gap-4 text-sm font-medium text-accent before:h-0.5 before:w-6 before:rounded-full before:bg-current after:h-0.5 after:w-6 after:rounded-full after:bg-current desktop:text-base desktop:before:w-10 desktop:after:w-10">
+        <p className="text-[17px] font-medium text-white desktop:text-xl">
           לב חב"ד בקריה הרפואית רמב"ם
         </p>
 

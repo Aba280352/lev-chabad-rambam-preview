@@ -52,9 +52,8 @@ svg{flex:none}
 .hero__body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:20px;padding:64px var(--side) 48px;max-width:1300px;width:100%;margin:0 auto}
 /* תגית מעל כותרת: מלבן 5px, מילוי בלבד, ריפוד נדיב */
 .kicker{display:inline-block;margin:0;padding:8px 18px;border-radius:5px;font-size:16px;font-weight:700;line-height:1.3;background:var(--bordeaux);color:var(--on-dark-strong)}
-.kicker--lines{display:inline-flex;align-items:center;gap:16px;padding:0;border-radius:0;background:none;color:var(--gold);font-weight:500}
-.kicker--lines::before,.kicker--lines::after{content:"";width:40px;height:2px;border-radius:2px;background:currentColor}
-@media (max-width:1024px){.kicker--lines{padding:0}.kicker--lines::before,.kicker--lines::after{width:24px}}
+.kicker--lines{display:inline-block;padding:0;border-radius:0;background:none;color:#fff;font-size:20px;font-weight:500}
+@media (max-width:1024px){.kicker--lines{padding:0;font-size:17px}}
 .hero h1{margin:0;font-weight:700;font-size:clamp(42px,8vw,120px);line-height:1.02;letter-spacing:-.01em;text-wrap:balance}
 .hero h1 .hl{color:var(--gold)}
 .hero__lead{margin:0;max-width:640px;font-size:20px;line-height:1.5;font-weight:500;color:var(--on-dark);text-wrap:pretty}
@@ -111,9 +110,9 @@ svg{flex:none}
   .head{gap:15px}
   .head h2{font-size:36px}.head p.lead{font-size:18px}
   .stage{grid-template-columns:1fr;margin-top:40px}
-  .acard{flex-direction:row;align-items:stretch;gap:14px;padding:10px}
-  .acard img{width:112px;flex:none;aspect-ratio:auto;height:auto;min-height:100%;object-fit:cover}
-  .acard__body{padding:4px 0 4px 4px;gap:6px}
+  .acard{flex-direction:column;padding:10px}
+  .acard img{width:100%;aspect-ratio:4/3;height:auto}
+  .acard__body{padding:14px 6px 6px;gap:8px}
   .acard h3{font-size:20px}.acard p{font-size:15px}
   .acard__link{font-size:15px;padding-top:4px}
 }
@@ -175,7 +174,7 @@ svg{flex:none}
 /* משפט מרגש: תמונה מלאה ומילים שנדלקות בגלילה */
 .statement{position:relative;height:220vh;background:var(--deep)}
 .statement__sticky{position:sticky;top:0;height:100dvh;display:grid;place-items:center;overflow:hidden;isolation:isolate}
-.statement__img{position:absolute;inset:-8% 0;z-index:-2;width:100%;height:116%;object-fit:cover}
+.statement__img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
 .statement__shade{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(61,0,19,.66),rgba(61,0,19,.88))}
 .statement__text{margin:0;max-width:1040px;padding:0 var(--side);text-align:center;color:#fff;font-weight:700;font-size:clamp(34px,5vw,72px);line-height:1.2;text-wrap:balance}
 .statement__text .w{opacity:.18;transition:none}
@@ -507,7 +506,7 @@ svg{flex:none}
 
 <section class="statement" aria-label="אתם לא לבד">
   <div class="statement__sticky">
-    <img class="statement__img" src="/about/statement.jpg" alt="" width="1600" height="1200" loading="lazy" aria-hidden="true">
+    <img class="statement__img" src="/about/statement.jpg" alt="" width="1600" height="1200" decoding="async" aria-hidden="true">
     <div class="statement__shade" aria-hidden="true"></div>
     <p class="statement__text" data-reveal>ברגעים הכי קשים, במסדרונות של בית החולים, יש מי שמחכה לכם עם ארוחה חמה, מיטה נקייה ולב פתוח. <span class="hl">אתם לא לבד.</span></p>
   </div>
@@ -771,7 +770,7 @@ svg{flex:none}
 })();
 </script>
 <script>
-/* משפט מרגש: כל מילה נדלקת לפי הגלילה (scrub), והתמונה זזה לאט (פרלקסה) */
+/* משפט מרגש: כל מילה נדלקת לפי הגלילה (scrub). התמונה קבועה, בלי פרלקסה, כדי שלא תקפוץ */
 (function(){
   var p = document.querySelector('[data-reveal]'); if (!p) return;
   function split(node){ [].slice.call(node.childNodes).forEach(function(n){
@@ -786,8 +785,6 @@ svg{flex:none}
   var section = p.closest('.statement');
   gsap.to(p.querySelectorAll('.w'), { opacity: 1, ease: 'none', stagger: 0.12,
     scrollTrigger: { trigger: section, start: 'top top', end: 'bottom bottom', scrub: true } });
-  gsap.fromTo(section.querySelector('.statement__img'), { yPercent: -4 }, { yPercent: 4, ease: 'none',
-    scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true } });
 })();
 </script>
 <script>
