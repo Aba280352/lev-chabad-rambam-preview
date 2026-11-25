@@ -192,6 +192,15 @@ body.menu-open{overflow:hidden}
   .quotes__note{margin:12px var(--side) 0}
 }
 @media (prefers-reduced-motion:reduce){.reel video{transition:none}}
+/* נגן רילס במסך מלא */
+.player{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px;background:rgba(20,0,7,.94);
+  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility 0s linear .3s}
+.player.is-open{opacity:1;visibility:visible;transition:opacity .3s var(--ease),visibility 0s}
+.player__bar{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(100%,calc((100dvh - 120px) * 9 / 16));color:#fff}
+.player__title{margin:0;font-size:18px;font-weight:700}
+.player__close{display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:50%;background:var(--gold);color:var(--deep);cursor:pointer;flex:none}
+.player__close:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.player video{display:block;width:min(100%,calc((100dvh - 120px) * 9 / 16));aspect-ratio:9/16;max-height:calc(100dvh - 120px);border-radius:12px;background:#000;object-fit:contain}
 
 /* משפט מרגש: תמונה מלאה ומילים שנדלקות בגלילה */
 .statement{position:relative;height:220vh;background:var(--deep)}
@@ -392,6 +401,14 @@ body.menu-open{overflow:hidden}
   <button class="menu-btn" type="button" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="mnav" data-menu-open><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </header>
 
+<div class="player" id="reel-player" role="dialog" aria-modal="true" aria-label="נגן סרטון">
+  <div class="player__bar">
+    <p class="player__title"></p>
+    <button class="player__close" type="button" aria-label="סגירת הסרטון"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  </div>
+  <video controls playsinline preload="none"></video>
+</div>
+
 <div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="תפריט ראשי">
   <div class="mnav__top">
     <a class="mnav__brand" href="/"><svg viewBox="428.45 222.45 130.15 120.86" fill="currentColor" aria-hidden="true"><path d="M 437.75 268.94 C 432.61 268.94 428.45 264.77 428.45 259.64 C 428.45 239.13 445.13 222.46 465.64 222.46 C 469.79 222.46 473.88 223.13 477.78 224.48 C 482.63 226.16 485.21 231.45 483.53 236.30 C 481.84 241.16 476.54 243.72 471.71 242.06 C 469.77 241.39 467.73 241.05 465.64 241.05 C 455.38 241.05 447.04 249.39 447.04 259.64 C 447.04 264.77 442.89 268.94 437.75 268.94"/><path d="M 493.54 268.94 C 493.05 268.94 492.56 268.90 492.07 268.82 C 487 268.02 483.54 263.25 484.35 258.18 C 487.74 236.81 502.64 222.46 521.41 222.46 C 541.92 222.46 558.60 239.13 558.60 259.64 C 558.60 264.77 554.44 268.94 549.30 268.94 C 544.16 268.94 540.00 264.77 540.00 259.64 C 540.00 249.39 531.66 241.05 521.41 241.05 C 509.97 241.05 504.24 251.40 502.70 261.10 C 501.98 265.67 498.02 268.94 493.54 268.94"/><path d="M 493.52 343.30 C 491.51 343.30 489.48 342.64 487.81 341.33 C 481.73 336.59 428.45 294.02 428.45 259.64 C 428.45 254.51 432.61 250.34 437.75 250.34 C 442.89 250.34 447.05 254.51 447.05 259.64 C 447.05 277.07 473.55 305.23 493.52 322.04 C 513.50 305.21 540.00 277.03 540.00 259.64 C 540.00 254.51 544.16 250.34 549.30 250.34 C 554.44 250.34 558.60 254.51 558.60 259.64 C 558.60 294.02 505.32 336.59 499.24 341.33 C 497.57 342.64 495.54 343.30 493.52 343.30"/></svg><span>לב חב"ד רמב"ם</span></a>
@@ -513,7 +530,7 @@ body.menu-open{overflow:hidden}
   <header class="head">
     <p class="kicker">רגעים של אור</p>
     <h2 id="moments-title">אתם <span class="hl">לא לבד</span></h2>
-    <p class="lead">רגעים קטנים מהיום יום שלנו ברמב"ם. לחצו על סרטון כדי לצפות עם קול.</p>
+    <p class="lead">רגעים קטנים מהיום יום שלנו ברמב"ם. לחצו על סרטון כדי לצפות בו בגדול ועם קול.</p>
   </header>
 
   <ul class="reels">
@@ -770,24 +787,36 @@ body.menu-open{overflow:hidden}
 })();
 </script>
 <script>
-/* רילס: ריחוף מנגן בלי קול (דסקטופ), לחיצה מנגנת עם קול ועוצרת את השאר */
+/* רילס: ריחוף מנגן בלי קול (דסקטופ). לחיצה פותחת נגן במסך מלא עם קול ופקדים (כולל הגדלה) */
 (function(){
   var reels = [].slice.call(document.querySelectorAll('.reel'));
   var hover = window.matchMedia('(hover: hover)').matches;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function stopOthers(cur){ reels.forEach(function(r){ if (r === cur) return; var v = r.querySelector('video'); v.pause(); v.muted = true; r.classList.remove('is-playing'); }); }
+  var box = document.getElementById('reel-player'), player = box.querySelector('video'), title = box.querySelector('.player__title'), last = null;
+  function openPlayer(reel){
+    var v = reel.querySelector('video'); v.pause(); last = reel;
+    player.src = v.getAttribute('src'); player.poster = v.getAttribute('poster') || '';
+    title.textContent = reel.querySelector('.reel__title').textContent;
+    box.classList.add('is-open'); document.body.classList.add('menu-open');
+    player.muted = false; player.currentTime = 0; player.play().catch(function(){});
+    box.querySelector('.player__close').focus();
+  }
+  function closePlayer(){
+    player.pause(); player.removeAttribute('src'); player.load();
+    box.classList.remove('is-open'); document.body.classList.remove('menu-open');
+    if (last) last.focus();
+  }
+  box.querySelector('.player__close').addEventListener('click', closePlayer);
+  box.addEventListener('click', function(e){ if (e.target === box) closePlayer(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && box.classList.contains('is-open')) closePlayer(); });
   reels.forEach(function(reel){
     var v = reel.querySelector('video');
     if (hover && !reduce) {
-      reel.addEventListener('mouseenter', function(){ if (!reel.classList.contains('is-playing')) v.play().catch(function(){}); });
-      reel.addEventListener('mouseleave', function(){ if (!reel.classList.contains('is-playing')) v.pause(); });
+      reel.addEventListener('mouseenter', function(){ v.play().catch(function(){}); });
+      reel.addEventListener('mouseleave', function(){ v.pause(); });
     }
-    function toggle(){
-      if (reel.classList.contains('is-playing')) { v.pause(); v.muted = true; reel.classList.remove('is-playing'); return; }
-      stopOthers(reel); v.muted = false; v.currentTime = v.currentTime || 0; v.play().catch(function(){}); reel.classList.add('is-playing');
-    }
-    reel.addEventListener('click', toggle);
-    reel.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    reel.addEventListener('click', function(){ openPlayer(reel); });
+    reel.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPlayer(reel); } });
   });
 })();
 </script>
